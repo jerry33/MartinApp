@@ -68,7 +68,7 @@ public class AbstractModel extends AbstractTableModel {
 			match.setNumberOfCurrentMatch(findCounter);
 			return null;
 		}
-		System.out.println("findCounter = " + findCounter);
+//		System.out.println("findCounter = " + findCounter);
 		match.setNumberOfCurrentMatch(findCounter);
 		return matchingLines[findCounter++];
 	}
@@ -81,7 +81,7 @@ public class AbstractModel extends AbstractTableModel {
 			match.setNumberOfCurrentMatch(findCounter);
 			return null;
 		}
-		System.out.println("findCounter = " + findCounter);
+//		System.out.println("findCounter = " + findCounter);
 		match.setNumberOfCurrentMatch(findCounter);
 		return matchingLines[findCounter];
 	}

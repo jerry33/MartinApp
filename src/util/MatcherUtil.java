@@ -96,6 +96,13 @@ public class MatcherUtil {
 //					System.out.println("new word = " + newString);
 					if(dBArray[j].length() >= 3 && (programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
 						
+						if(newString.equals("pri") || newString.equals("pre") || newString.equals("tom") || newString.equals("nie")) {
+							continue;
+						}
+						
+//						System.out.println("programArray[" + i + "] = " + programArray[i]);
+//						System.out.println("newString = " + newString);
+						
 						String lineMatch = "";
 						BufferedReader bfProgramNew = new BufferedReader(new FileReader(pathProgram));
 						
