@@ -1,0 +1,13 @@
+typedef struct node {
+  int value;
+  struct node *left, *right;
+} NODE;
+
+NODE *getFollower(NODE *root, NODE *node) {
+  if(node->value > root->value)
+     getFollower(root->right, node);
+  else if(node->value < root->value)
+     getFollower(root->left, node);
+  else if(node->value == root->value)
+     return root->right; //vrati praveho nasledovnika
+}
