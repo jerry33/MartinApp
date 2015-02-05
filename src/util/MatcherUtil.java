@@ -44,7 +44,7 @@ public class MatcherUtil {
 			}
 			
 //			String[] programArray = sbProgram.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}|\\d{2,}|\\,");
-			String[] programArray = sbProgram.toString().split("[\\W+&&[^@#]]|\\d{3,}");
+			String[] programArray = sbProgram.toString().split("[\\W+&&[^@#]]|[\\d+&&[^0||^1]]");
 
 			while((dBLine = bfDB.readLine()) != null) {
 				cleanDBLine = java.text.Normalizer.normalize(dBLine, java.text.Normalizer.Form.NFD);
@@ -54,7 +54,7 @@ public class MatcherUtil {
 			}
 
 //			String[] dBArray = sbDB.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}|\\d{2,}|\\,");
-			String[] dBArray = sbDB.toString().split("[\\W+&&[^@#]]|\\d{3,}");
+			String[] dBArray = sbDB.toString().split("[\\W+&&[^@#]]|[\\d+&&[^0||^1]]");
 			
 			boolean newLineInNextIteration = false;
 			int currProgramLine = 1;
@@ -70,7 +70,7 @@ public class MatcherUtil {
 				}
 				
 				int currDBLine = 1;
-				System.out.println(programArray[i]);
+//				System.out.println(programArray[i]);
 				
 				if(programArray[i].contains(Config.NEW_LINE_HASH)) newLineInNextIteration = true;
 				
@@ -98,7 +98,10 @@ public class MatcherUtil {
 							continue;
 						}
 						
+						
+						
 //						System.out.println("programArray[" + i + "] = " + programArray[i]);
+//						System.out.println("newDBString = " + newDBString);
 //						System.out.println("newProgramString = " + newProgramString);
 						
 						String lineMatch = "";
