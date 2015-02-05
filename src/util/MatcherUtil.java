@@ -42,8 +42,9 @@ public class MatcherUtil {
 				cleanProgramLine = cleanProgramLine.replaceAll("[^\\p{ASCII}]", "");
 				sbProgram.append(cleanProgramLine + Config.NEW_LINE_HASH + "\n");
 			}
-//			String[] programArray = sbProgram.toString().split(":\\s|\t| |\n|_|!"); 
-			String[] programArray = sbProgram.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}");
+			
+			String[] programArray = sbProgram.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}|\\d{2,}|\\,");
+//			String[] programArray = sbProgram.toString().split("\\W+");
 
 			while((dBLine = bfDB.readLine()) != null) {
 				cleanDBLine = java.text.Normalizer.normalize(dBLine, java.text.Normalizer.Form.NFD);
@@ -52,18 +53,11 @@ public class MatcherUtil {
 				sbDB.append(cleanDBLine + Config.NEW_LINE_HASH + "\n");
 			}
 
-//			String[] dBArray = sbDB.toString().split(":\\s|\t| |\n|_");
-			String[] dBArray = sbDB.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}");
+			String[] dBArray = sbDB.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}|\\d{2,}|\\,");
+//			String[] dBArray = sbDB.toString().split("\\W+");
 			
 			boolean newLineInNextIteration = false;
 			int currProgramLine = 1;
-			
-			String testik = "rosselovaA1";
-			if(testik.contains("rosselova" + Config.NEW_LINE_HASH)) {
-				System.out.println("huraa");
-			} else {
-				System.out.println("nieee");
-			}
 			
 			boolean isFound = false; // founded occurence at line x
 			
@@ -91,17 +85,21 @@ public class MatcherUtil {
 					}
 					
 //					System.out.println("old word = " + dBArray[j]);
-					String newString = dBArray[j].replaceAll(Config.NEW_LINE_HASH, ""); //so that it matches rosselova with rosselova@#
-					newString = newString.replaceAll("a0|a1|\\[|\\]", "");
-//					System.out.println("new word = " + newString);
-					if(dBArray[j].length() >= 3 && (programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
+					String newDBString = dBArray[j].replaceAll(Config.NEW_LINE_HASH + "|a0|a1|\\[|\\]|\\/", ""); //so that it matches rosselova with rosselova@#
+					String newProgramString = programArray[i].replaceAll(Config.NEW_LINE_HASH + "|a0|a1|\\[|\\]|\\/", "");
+//					System.out.println("newDBString = " + newDBString);
+//					newDBString = newDBString.replaceAll("a0|a1|\\[|\\]|/", "");
+//					newProgramString = newProgramString.replaceAll("a0|a1|\\[|\\]|/", "");
+//					if(dBArray[j].length() >= 3 && (programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
+					
+					if(dBArray[j].length() >= 3 && newProgramString.equals(newDBString)) {  //(programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
 						
-						if(newString.equals("pri") || newString.equals("pre") || newString.equals("tom") || newString.equals("nie")) {
+						if(newDBString.equals("pri") || newDBString.equals("pre") || newDBString.equals("tom") || newDBString.equals("nie")) {
 							continue;
 						}
 						
 //						System.out.println("programArray[" + i + "] = " + programArray[i]);
-//						System.out.println("newString = " + newString);
+//						System.out.println("newProgramString = " + newProgramString);
 						
 						String lineMatch = "";
 						BufferedReader bfProgramNew = new BufferedReader(new FileReader(pathProgram));
@@ -109,7 +107,7 @@ public class MatcherUtil {
 						while((lineMatch = bfProgramNew.readLine()) != null && !isFound) {
 							if(currProgramLine == counter) {
 								programFileMatches.add(Integer.valueOf(currProgramLine));
-								wordMatches.add(newString);
+								wordMatches.add(newDBString);
 								// if there's only one matching word, it's considered to be in the next line (because of currDBLine++), that's why currDBLine-1 in the next line
 								dbFileMatches.add((dBArray[j].contains(Config.NEW_LINE_HASH)) ? Integer.valueOf(currDBLine-1) : Integer.valueOf(currDBLine));
 								isFound = true;
