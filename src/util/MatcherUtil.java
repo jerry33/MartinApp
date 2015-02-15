@@ -44,7 +44,7 @@ public class MatcherUtil {
 			}
 			
 //			String[] programArray = sbProgram.toString().split(":\\s|\t| |\n|_|\\.|!|-|\\d{2}\\:\\d{2}|\\d{2,}|\\,");
-			String[] programArray = sbProgram.toString().split("[\\W+&&[^@#]]|[\\d+&&[^0||^1]]");
+			String[] programArray = sbProgram.toString().split("[\\W+&&[^@#]]|[\\d+&&[^0||^1]]"); //except 0 and 1, because of A0.mpg and A1.mpg endings
 
 			while((dBLine = bfDB.readLine()) != null) {
 				cleanDBLine = java.text.Normalizer.normalize(dBLine, java.text.Normalizer.Form.NFD);
@@ -88,11 +88,13 @@ public class MatcherUtil {
 					String newDBString = dBArray[j].replaceAll(Config.NEW_LINE_HASH + "|a0|a1|\\[|\\]|\\/", ""); //so that it matches rosselova with rosselova@#
 					String newProgramString = programArray[i].replaceAll(Config.NEW_LINE_HASH + "|a0|a1|\\[|\\]|\\/", "");
 //					System.out.println("newDBString = " + newDBString);
+					
 //					newDBString = newDBString.replaceAll("a0|a1|\\[|\\]|/", "");
 //					newProgramString = newProgramString.replaceAll("a0|a1|\\[|\\]|/", "");
 //					if(dBArray[j].length() >= 3 && (programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
 					
-					if(dBArray[j].length() >= 3 && newProgramString.equals(newDBString)) {  //(programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
+					// string match SHOULD NOT contain a number, that's why .matches() is being used
+					if(newProgramString.length() >= 3 && newProgramString.equals(newDBString) && !newProgramString.matches(".*\\d.*")) {  //(programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
 						
 						if(newDBString.equals("pri")
 								|| newDBString.equals("kde")
@@ -105,7 +107,7 @@ public class MatcherUtil {
 							continue;
 						}
 						
-						
+//						System.out.println("newProgramString = " + newProgramString);
 						
 //						System.out.println("programArray[" + i + "] = " + programArray[i]);
 //						System.out.println("newDBString = " + newDBString);
