@@ -94,7 +94,14 @@ public class MatcherUtil {
 					
 					if(dBArray[j].length() >= 3 && newProgramString.equals(newDBString)) {  //(programArray[i].contains(newString) && newString.length() >= 3) ) { // && !wasAlreadyFound
 						
-						if(newDBString.equals("pri") || newDBString.equals("pre") || newDBString.equals("tom") || newDBString.equals("nie")) {
+						if(newDBString.equals("pri")
+								|| newDBString.equals("kde")
+								|| newDBString.equals("ked")
+								|| newDBString.equals("bol")
+								|| newDBString.equals("pre")
+								|| newDBString.equals("tom")
+								|| newDBString.equals("nie")
+								|| newDBString.equals("ako")) {
 							continue;
 						}
 						
@@ -124,9 +131,9 @@ public class MatcherUtil {
 			}
 			
 			if(programFileMatches.size() == dbFileMatches.size()) {
-				System.out.println("OK, pocet zhod je v oboch suboroch rovnaky");
+//				System.out.println("OK, pocet zhod je v oboch suboroch rovnaky");
 			} else {
-				System.out.println("ERROR, nerovnaky pocet zhod v suboroch");
+//				System.out.println("ERROR, nerovnaky pocet zhod v suboroch");
 			}
 			
 			matchesArray = new int[programFileMatches.size()][2];
