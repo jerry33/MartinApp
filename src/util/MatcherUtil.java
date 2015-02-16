@@ -60,8 +60,20 @@ public class MatcherUtil {
 			int currProgramLine = 1;
 			
 			boolean isFound = false; // founded occurence at line x
+			boolean isFoundOnRight = false; //if a match is found on right, find also another matches until the end; but then ignore all the words until the end of line on the right side
 			
 			for(int i = 0; i < programArray.length; i++) {
+				
+				if(isFoundOnRight && !isAdvancedMatching) {
+					// all the matches of first left word on the right side has been found; now ignore the rest until the end of line
+					// the result is, that only one word in line on the left side is being looked up on the right side (it means 'find all occurrences of left word on right side; then go to the next line and carry on')
+					while(!programArray[i].contains(Config.NEW_LINE_HASH)) {
+						i++;
+					}
+					isFoundOnRight = false;
+					i--;
+					continue;
+				}
 				
 				if(newLineInNextIteration) {
 					currProgramLine++;
@@ -72,16 +84,16 @@ public class MatcherUtil {
 				int currDBLine = 1;
 //				System.out.println(programArray[i]);
 				
-				if(programArray[i].contains(Config.NEW_LINE_HASH)) newLineInNextIteration = true;
-				
+				if(programArray[i].contains(Config.NEW_LINE_HASH)) {
+					newLineInNextIteration = true;					
+				}
+								
 				for(int j = 0; j < dBArray.length; j++) {
 					int counter = 1;
 					
 					if(dBArray[j].contains(Config.NEW_LINE_HASH)) {
 						currDBLine++;
-						if(isAdvancedMatching) {
-							isFound = false; //detailed matching
-						}
+						isFound = false; //detailed matching
 					}
 					
 //					System.out.println("old word = " + dBArray[j]);
@@ -106,6 +118,8 @@ public class MatcherUtil {
 								|| newDBString.equals("ako")) {
 							continue;
 						}
+						
+						isFoundOnRight = true;
 						
 //						System.out.println("newProgramString = " + newProgramString);
 						
